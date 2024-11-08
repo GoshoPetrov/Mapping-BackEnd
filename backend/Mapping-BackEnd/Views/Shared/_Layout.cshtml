@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mapping_BackEnd</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Mapping_BackEnd.styles.css" asp-append-version="true" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <div class="headerBox">
+            <img src="https://www.pensa.club/images/homePage/logo-2.png">
+            <p>Pensa Club</p>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <img src="https://www.pensa.club/images/homePage/logo-2.png">
+        <section id="Texts">
+            <div class="footerEl">
+                <p>  Pensa club © </p>
+                <p> България, София</p>
+                <p> Имейл: office@pensa.club</p>
+            </div>
+            <div class="footerEl">
+                <p>  Pensa club © </p>
+                <p> България, София</p>
+                <p> Имейл: office@pensa.club</p>
+            </div>
+            <div class="footerEl">
+                <p>  Pensa club © </p>
+                <p> България, София</p>
+                <p> Имейл: office@pensa.club</p>
+            </div>
+        </section>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

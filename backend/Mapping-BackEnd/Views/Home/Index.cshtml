@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <main>
+        <section id="buttons">
+            <img src="https://www.pensa.club/images/map/pensamap2.png">
+            <div class="blocks">
+                <h4>Умения</h4>
+                <button>KKKKKKKK</button>
+            </div>
+            <div class="blocks">
+                <h4>Профеция</h4>
+                <button>KKKKKKKK</button>
+            </div>
+            <div class="blocks">
+                <h4>Интереси</h4>
+                <button>KKKKKKKK</button>
+            </div>
+
+        </section>
+        <section id="map">
+            <div id="mapComponent">
+                <p>Space for the map</p>
+            </div>
+
+            <div id="otherComponent">
+                <p>dygjdkcxytufszc</p>
+            </div>
+
+        </section>
+</div>
+
+@section Scripts{
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map and set its view to a chosen geographical point and zoom level
+        var map = L.map('mapComponent')
+            .setView([42.6977, 23.3219], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([42.6977, 23.3219]).addTo(map)
+            .bindPopup('Welcome to Sofia, Bulgaria!')
+            .openPopup();
+    </script>
+}

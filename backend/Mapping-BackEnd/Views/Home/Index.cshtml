@@ -27,6 +27,7 @@
 
             <div id="otherComponent">
                 <p>dygjdkcxytufszc</p>
+                <button onclick="ButtonOnClick()">Go to Sofia</button>
             </div>
 
         </section>
@@ -40,15 +41,34 @@
     <script>
         // Initialize the map and set its view to a chosen geographical point and zoom level
         var map = L.map('mapComponent')
-            .setView([42.6977, 23.3219], 13);
+            .setView([42.6977, 23.3219], 2);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        L.marker([42.6977, 23.3219]).addTo(map)
-            .bindPopup('Welcome to Sofia, Bulgaria!')
-            .openPopup();
+        function ShowOnMap(coordinates, radius, message){
+            map.setView(coordinates, radius)
+
+            L.marker(coordinates).addTo(map)
+                .bindPopup(message)
+                .openPopup();
+        }
+
+        function ButtonOnClick(){
+
+            fetch("/Api/Map", { method: "post" })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json(); // Process the response as JSON
+            })
+            .then(data => { ShowOnMap(data.coordinates, data.radius, data.message); })
+            .catch (error => {
+                console.error("There was a problem with the fetch operation:", error);
+            });
+        }
     </script>
 }

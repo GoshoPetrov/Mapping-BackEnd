@@ -114,6 +114,7 @@ footer{
     border-radius: 20px;
     display:flex;
     align-items: center;
+    margin-top: 50px;
 }
 footer img{
     height:70px;

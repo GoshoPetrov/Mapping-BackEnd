@@ -15,5 +15,17 @@ namespace Mapping_BackEnd.Controllers
 
             return Json(dict);
         }
+
+        public IActionResult Map2()
+        {
+            var dict = new Dictionary<string, object>();
+
+            dict["coordinates"] = new double[] { 42.6361668, 23.3698051 };
+            dict["radius"] = 18;
+            dict["message"] = "Softuni";
+
+            return Json(dict);
+        }
+
     }
 }

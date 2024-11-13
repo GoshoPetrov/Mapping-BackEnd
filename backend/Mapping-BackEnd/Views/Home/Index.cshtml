@@ -28,6 +28,7 @@
             <div id="otherComponent">
                 <p>dygjdkcxytufszc</p>
                 <button onclick="ButtonOnClick()">Go to Sofia</button>
+                <button onclick="ButtonOnClick2()">Go to Softuni</button>
             </div>
 
         </section>
@@ -70,5 +71,22 @@
                 console.error("There was a problem with the fetch operation:", error);
             });
         }
+
+        function ButtonOnClick2() {
+
+            fetch("/Api/Map2", { method: "post" })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json(); // Process the response as JSON
+                })
+                .then(data => { ShowOnMap(data.coordinates, data.radius, data.message); })
+                .catch(error => {
+                    console.error("There was a problem with the fetch operation:", error);
+                });
+        }
+
+
     </script>
 }

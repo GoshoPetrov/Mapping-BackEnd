@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapping_BackEnd.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mapping_BackEnd.Controllers
 {
@@ -7,13 +8,22 @@ namespace Mapping_BackEnd.Controllers
         [HttpPost]
         public IActionResult Map()
         {
-            var dict = new Dictionary<string, object>();
+            var db = new PensaClubContext();
 
-            dict["coordinates"] = new double[] { 42.6977, 23.3219 };
-            dict["radius"] = 13;
-            dict["message"] = "Sofia";
+            var list = new List<Dictionary<string, object>>();
 
-            return Json(dict);
+            foreach (var item in db.Places)
+            {
+                var dict = new Dictionary<string, object>();
+
+                dict["coordinates"] = new double[] { 42.6977, 23.3219 };
+                dict["radius"] = 13;
+                dict["message"] = item.Caption;
+
+                list.Add(dict);
+            }
+
+            return Json(list);
         }
 
         public IActionResult Map2()

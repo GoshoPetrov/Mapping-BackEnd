@@ -66,7 +66,10 @@
                 }
                 return response.json(); // Process the response as JSON
             })
-            .then(data => { ShowOnMap(data.coordinates, data.radius, data.message); })
+            .then(data => { 
+                const place = data[0];
+                ShowOnMap(place.coordinates, place.radius, place.message); 
+            })
             .catch (error => {
                 console.error("There was a problem with the fetch operation:", error);
             });

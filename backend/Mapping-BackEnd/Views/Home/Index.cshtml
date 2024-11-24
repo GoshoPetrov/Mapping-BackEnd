@@ -29,6 +29,7 @@
                 <p>dygjdkcxytufszc</p>
                 <button onclick="ButtonOnClick()">Go to Sofia</button>
                 <button onclick="ButtonOnClick2()">Go to Softuni</button>
+
             </div>
 
         </section>
@@ -90,6 +91,28 @@
                 });
         }
 
+        let otherData;
+
+        function HandleOnClick(index){
+            debugger;
+                ShowOnMap(otherData[index].coordinates, otherData[index].radius, otherData[index].message);
+        }
+
+
+        function ShowDataMap(data) {
+            document.getElementById("otherComponent").innerHTML = "";
+            otherData = data;
+            for(let i = 0; i < data.length; i++){
+                document.getElementById("otherComponent").innerHTML += `<button onclick="HandleOnClick(${i})">${data[i].message}</button>`;
+            }
+        }
+
+
+    document.getElementById("otherComponent").innerHTML = "Loading...";
+
+    fetch("/api/map", { method: 'POST' })
+        .then((res) => res.json())
+        .then((data) => ShowDataMap(data));
 
     </script>
 }

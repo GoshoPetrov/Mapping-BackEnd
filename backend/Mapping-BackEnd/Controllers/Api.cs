@@ -16,8 +16,8 @@ namespace Mapping_BackEnd.Controllers
             {
                 var dict = new Dictionary<string, object>();
 
-                dict["coordinates"] = new double[] { 42.6977, 23.3219 };
-                dict["radius"] = 13;
+                dict["coordinates"] = new double?[] { item.Lat, item.Long };
+                dict["radius"] = item.Radius;
                 dict["message"] = item.Caption;
 
                 list.Add(dict);

@@ -1,120 +1,169 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <main>
-        <section id="buttons">
-            <img src="https://www.pensa.club/images/map/pensamap2.png">
-            <div class="blocks">
-                <h4>Умения</h4>
-                <button>KKKKKKKK</button>
-            </div>
-            <div class="blocks">
-                <h4>Профеция</h4>
-                <button>KKKKKKKK</button>
-            </div>
-            <div class="blocks">
-                <h4>Интереси</h4>
-                <button>KKKKKKKK</button>
-            </div>
+	<main>
+		<section id="buttons">
+			<img src="https://www.pensa.club/images/map/pensamap2.png">
+			<div class="blocks">
+				<h4>Умения</h4>
+				<button>KKKKKKKK</button>
+			</div>
+			<div class="blocks">
+				<h4>Профеция</h4>
+				<button>KKKKKKKK</button>
+			</div>
+			<div class="blocks">
+				<h4>Интереси</h4>
+				<button>KKKKKKKK</button>
+			</div>
 
-        </section>
-        <section id="map">
-            <div id="mapComponent">
-                <p>Space for the map</p>
-            </div>
+		</section>
+		<section id="map">
+			<div id="mapComponent">
+				<p>Space for the map</p>
+			</div>
+			  
+			<div class="pc-vertical">
+				
+				<div id="otherComponent" class="pc-vertical">
+					<p>dygjdkcxytufszc</p>
+					<button onclick="ButtonOnClick()">Go to Sofia</button>
+					<button onclick="ButtonOnClick2()">Go to Softuni</button>
 
-            <div id="otherComponent">
-                <p>dygjdkcxytufszc</p>
-                <button onclick="ButtonOnClick()">Go to Sofia</button>
-                <button onclick="ButtonOnClick2()">Go to Softuni</button>
+				</div>
+				<div class="flexStuff">
+					<input id="latCoordinates" value="23" />
+					<input id="longCoordinates" value="42" />
+					<button onclick="SaveCoordinates()">Save</button>
+				</div>
+			</div>
+			
 
-            </div>
+			
 
-        </section>
+		</section>
 </div>
 
-@section Scripts{
+@section Scripts {
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	<!-- Leaflet JS -->
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <script>
-        // Initialize the map and set its view to a chosen geographical point and zoom level
-        var map = L.map('mapComponent')
-            .setView([42.6977, 23.3219], 2);
+	<script>
+			function SaveCoordinates(lat, long)
+			{
+				lat = document.getElementById("latCoordinates").value;
+					long = document.getElementById("longCoordinates").value;
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+				fetch("/api/Save", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						Lat: Number(lat),
+						Longtitude: Number(long)
+					})
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log("done");
+				});
+			}
 
-        function ShowOnMap(coordinates, radius, message){
-            map.setView(coordinates, radius)
+			// Initialize the map and set its view to a chosen geographical point and zoom level
+			var map = L.map('mapComponent')
+				.setView([42.6977, 23.3219], 2);
 
-            L.marker(coordinates).addTo(map)
-                .bindPopup(message)
-                .openPopup();
-        }
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				maxZoom: 19,
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
 
-        function ButtonOnClick(){
+			// Hook into the moveend event
+			map.on('moveend', function () {
+				var center = map.getCenter(); // Get the center of the map
+				console.log("Current Latitude: " + center.lat + ", Longitude: " + center.lng);
+				document.getElementById("latCoordinates").value = center.lat;
+				document.getElementById("longCoordinates").value = center.lng;
+			});
 
-            fetch("/Api/Map", { method: "post" })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json(); // Process the response as JSON
-            })
-            .then(data => { 
-                const place = data[0];
-                ShowOnMap(place.coordinates, place.radius, place.message); 
-            })
-            .catch (error => {
-                console.error("There was a problem with the fetch operation:", error);
-            });
-        }
+			// Optional: Hook into other events like zoomend
+			map.on('zoomend', function () {
+				var center = map.getCenter();
+				console.log("Zoomed! Current Latitude: " + center.lat + ", Longitude: " + center.lng);
+				document.getElementById("latCoordinates").value = center.lat;
+				document.getElementById("longCoordinates").value = center.lng;
+			});
 
-        function ButtonOnClick2() {
+			function ShowOnMap(coordinates, radius, message){
+				map.setView(coordinates, radius)
 
-            fetch("/Api/Map2", { method: "post" })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Network response was not ok");
-                    }
-                    return response.json(); // Process the response as JSON
-                })
-                .then(data => { ShowOnMap(data.coordinates, data.radius, data.message); })
-                .catch(error => {
-                    console.error("There was a problem with the fetch operation:", error);
-                });
-        }
+				L.marker(coordinates).addTo(map)
+					.bindPopup(message)
+					.openPopup();
+			}
+
+			function ButtonOnClick(){
+
+				fetch("/Api/Map", { method: "post" })
+				.then(response => {
+					if (!response.ok) {
+						throw new Error("Network response was not ok");
+					}
+					return response.json(); // Process the response as JSON
+				})
+				.then(data => {
+					const place = data[0];
+					ShowOnMap(place.coordinates, place.radius, place.message);
+				})
+				.catch (error => {
+					console.error("There was a problem with the fetch operation:", error);
+				});
+			}
+
+			function ButtonOnClick2() {
+
+				fetch("/Api/Map2", { method: "post" })
+					.then(response => {
+						if (!response.ok) {
+							throw new Error("Network response was not ok");
+						}
+						return response.json(); // Process the response as JSON
+					})
+					.then(data => { ShowOnMap(data.coordinates, data.radius, data.message); })
+					.catch(error => {
+						console.error("There was a problem with the fetch operation:", error);
+					});
+			}
 
 
-        let otherData;
+			let otherData;
 
-        function HandleOnClick(index){
-            debugger;
-                ShowOnMap(otherData[index].coordinates, otherData[index].radius, otherData[index].message);
-        }
-
-
-        function ShowDataMap(data) {
-            debugger;
-            document.getElementById("otherComponent").innerHTML = "";
-            otherData = data;
-            for(let i = 0; i < data.length; i++){
-                document.getElementById("otherComponent").innerHTML += `<button onclick="HandleOnClick(${i})">${data[i].message}</button>`;
-            }
-        }
+			function HandleOnClick(index){
+				debugger;
+					ShowOnMap(otherData[index].coordinates, otherData[index].radius, otherData[index].message);
+			}
 
 
-    document.getElementById("otherComponent").innerHTML = "Loading...";
+			function ShowDataMap(data) {
+				document.getElementById("otherComponent").innerHTML = "";
+				otherData = data;
+				for(let i = 0; i < data.length; i++){
+					document.getElementById("otherComponent").innerHTML += `<button onclick="HandleOnClick(${i})">${data[i].message}</button>`;
+				}
+			}
 
-    fetch("/api/map", { method: 'POST' })
-        .then((res) => res.json())
-        .then((data) => ShowDataMap(data));
 
-    </script>
+
+
+
+		document.getElementById("otherComponent").innerHTML = "Loading...";
+
+		fetch("/api/map", { method: 'POST' })
+			.then((res) => res.json())
+			.then((data) => ShowDataMap(data));
+
+
+	</script>
 }

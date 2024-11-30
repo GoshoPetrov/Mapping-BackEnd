@@ -27,7 +27,7 @@ public partial class PensaClubContext : DbContext
 		{
 			entity.HasKey(e => e.Id).HasName("PK__Places__3214EC071FE8A1FA");
 
-			entity.Property(e => e.Id).ValueGeneratedNever();
+			entity.Property(e => e.Id).ValueGeneratedOnAdd();
 		});
 
 		OnModelCreatingPartial(modelBuilder);

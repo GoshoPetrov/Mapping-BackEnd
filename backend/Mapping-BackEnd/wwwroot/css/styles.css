@@ -164,3 +164,14 @@ footer {
     justify-content: center;
     display: flex;
 }
+
+.flexStuff{
+    align-content: flex-end;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pc-vertical {
+    display: flex;
+    flex-direction: column;
+}

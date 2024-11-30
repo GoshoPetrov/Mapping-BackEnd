@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mapping_BackEnd.Controllers
 {
+    public class Model
+    {
+        public double Lat { get; set; }
+        public double Longtitude { get; set; }
+    }
     public class Api : Controller
     {
         [HttpPost]
@@ -35,6 +40,23 @@ namespace Mapping_BackEnd.Controllers
             dict["message"] = "Softuni";
 
             return Json(dict);
+        }
+
+        public IActionResult Save([FromBody] Model model)
+        {
+            var db = new PensaClubContext();
+            var n = new Place();
+
+            n.Lat = model.Lat;
+            n.Long = model.Longtitude;
+            n.Caption = "new";
+            n.Radius = 13;
+
+            db.Places.Add(n);
+            db.SaveChanges();
+
+            // You can now use model.Var1 and model.Var2
+            return Ok(new { model.Lat, model.Longtitude });
         }
 
     }

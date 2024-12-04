@@ -7,6 +7,8 @@ namespace Mapping_BackEnd.Controllers
     {
         public double Lat { get; set; }
         public double Longtitude { get; set; }
+        public string Caption { get; set; }
+        public int Radius { get; set; }
     }
     public class Api : Controller
     {
@@ -49,7 +51,7 @@ namespace Mapping_BackEnd.Controllers
 
             n.Lat = model.Lat;
             n.Long = model.Longtitude;
-            n.Caption = "new";
+            n.Caption = model.Caption;
             n.Radius = 13;
 
             db.Places.Add(n);

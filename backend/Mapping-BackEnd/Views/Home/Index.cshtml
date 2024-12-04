@@ -36,6 +36,7 @@
 				<div class="flexStuff">
 					<input id="latCoordinates" value="23" />
 					<input id="longCoordinates" value="42" />
+					<input id="captionValue" value="caption" />
 					<button onclick="SaveCoordinates()">Save</button>
 				</div>
 			</div>
@@ -52,17 +53,19 @@
 	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 	<script>
-			function SaveCoordinates(lat, long)
+			function SaveCoordinates(lat, long, caption)
 			{
 				lat = document.getElementById("latCoordinates").value;
-					long = document.getElementById("longCoordinates").value;
+				long = document.getElementById("longCoordinates").value;
+				caption = document.getElementById("captionValue").value;
 
 				fetch("/api/Save", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({
 						Lat: Number(lat),
-						Longtitude: Number(long)
+						Longtitude: Number(long),
+						Caption: String(caption)
 					})
 				})
 				.then(response => response.json())

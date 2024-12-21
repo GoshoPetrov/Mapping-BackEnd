@@ -166,6 +166,7 @@ footer {
 }
 
 .flexStuff{
+    display: flex;
     align-content: flex-end;
     flex-direction: column;
     gap: 20px;

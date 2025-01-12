@@ -21,7 +21,7 @@ namespace Mapping_BackEnd.Controllers
     public class Api : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _openAiApiKey = "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"; // Replace with your actual OpenAI API key
+        private readonly string _openAiApiKey = "..."; // Replace with your actual OpenAI API key
 
         public Api(HttpClient httpClient)
         {

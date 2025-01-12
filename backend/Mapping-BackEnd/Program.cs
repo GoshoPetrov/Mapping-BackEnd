@@ -1,3 +1,5 @@
+using Mapping_BackEnd.Controllers;
+
 namespace Mapping_BackEnd
 {
     public class Program
@@ -8,6 +10,7 @@ namespace Mapping_BackEnd
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpClient<Api>();
 
             var app = builder.Build();
 

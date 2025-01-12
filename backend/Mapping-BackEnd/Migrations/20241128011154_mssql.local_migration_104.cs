@@ -14,7 +14,7 @@ namespace Mapping_BackEnd.Migrations
                 name: "Places",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
                     Caption = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Lat = table.Column<double>(type: "float", nullable: true),
                     Long = table.Column<double>(type: "float", nullable: true),

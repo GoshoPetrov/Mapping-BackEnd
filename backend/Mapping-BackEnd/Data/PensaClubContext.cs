@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Mapping_BackEnd.Data;
 
@@ -19,6 +20,9 @@ public partial class PensaClubContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder
+			.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
         if (!string.IsNullOrEmpty(connectionString))
         {

@@ -128,7 +128,7 @@ namespace Mapping_BackEnd.Controllers
             var dict = new Dictionary<string, object>();
             dict["coordinates"] = ExtractCoordinates(chatResponse);
             dict["radius"] = 18;
-            dict["message"] = text.Message;
+            dict["message"] = chatResponse;
 
             return Json(dict);
         }

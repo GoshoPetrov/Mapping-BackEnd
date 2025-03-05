@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "${SA_PASSWORD}"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "sqlcmd", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - migrations
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=db;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;"
+
+  migrations:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrations
+    depends_on:
+      - db
+    environment:
+      SA_PASSWORD: "${SA_PASSWORD}"
+      DB_NAME: "${DB_NAME}"
+      ConnectionStrings__DefaultConnection: "Server=db;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};Encrypt=True;TrustServerCertificate=True;"
+
+volumes:
+  sql_data:
